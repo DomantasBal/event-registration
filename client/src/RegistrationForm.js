@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const RegistrationForm = () => {
-  const [user, setUser] = useState({ name: '', email: '', age: '' });
+const RegistrationForm = ({ initialUser = null }) => {
+  const [user, setUser] = useState(
+    initialUser || { name: '', email: '', age: '' }
+  );
+  const [isEditing, setIsEditing] = useState(!!initialUser);
+
+  useEffect(() => {
+    if (initialUser) {
+      setUser(initialUser);
+      setIsEditing(true);
+    }
+  }, [initialUser]);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -11,17 +21,23 @@ const RegistrationForm = () => {
     e.preventDefault();
     const userToSubmit = {
       ...user,
-      age: Number(user.age), // Convert age to a Number
+      age: Number(user.age),
     };
-    const response = await fetch('http://localhost:5000/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userToSubmit),
-    });
+    const response = await fetch(
+      `http://localhost:5000/api/users${
+        isEditing ? `/${initialUser._id}` : ''
+      }`,
+      {
+        method: isEditing ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userToSubmit),
+      }
+    );
     if (response.ok) {
       setUser({ name: '', email: '', age: '' });
+      setIsEditing(false);
     }
   };
 
@@ -51,7 +67,7 @@ const RegistrationForm = () => {
         placeholder="Amžius"
         required
       />
-      <button type="submit">Registruotis</button>
+      <button type="submit">{isEditing ? 'Update' : 'Registruotis'}</button>
     </form>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const UserList = () => {
+const UserList = ({ setUser, setIsEditing }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -21,6 +21,11 @@ const UserList = () => {
     }
   };
 
+  const handleEdit = (user) => {
+    setUser(user);
+    setIsEditing(true);
+  };
+
   return (
     <table>
       <thead>
@@ -38,6 +43,7 @@ const UserList = () => {
             <td>{user.email}</td>
             <td>{user.age}</td>
             <td>
+              <button onClick={() => handleEdit(user)}>Edit</button>
               <button onClick={() => handleDelete(user._id)}>Ištrinti</button>
             </td>
           </tr>
