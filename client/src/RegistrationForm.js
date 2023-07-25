@@ -28,6 +28,7 @@ const RegistrationForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <input
+        type="text"
         name="name"
         value={user.name}
         onChange={handleChange}
@@ -35,6 +36,7 @@ const RegistrationForm = () => {
         required
       />
       <input
+        type="email"
         name="email"
         value={user.email}
         onChange={handleChange}
@@ -42,6 +44,7 @@ const RegistrationForm = () => {
         required
       />
       <input
+        type="number"
         name="age"
         value={user.age}
         onChange={handleChange}
