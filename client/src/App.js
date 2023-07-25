@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import RegistrationForm from './RegistrationForm';
-import UserList from './UserList';
+import RegistrationForm from './components/RegistrationForm';
+import UserList from './components/UserList';
 
 const App = () => {
   const [user, setUser] = useState(null);
