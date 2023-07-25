@@ -9,20 +9,19 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:5000/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+    const userToSubmit = {
+      ...user,
+      age: Number(user.age), // Convert age to a Number
+    };
+    const response = await fetch('http://localhost:5000/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userToSubmit),
+    });
+    if (response.ok) {
       setUser({ name: '', email: '', age: '' });
-    } catch (error) {
-      console.error('A fetch error occurred:', error);
     }
   };
 
