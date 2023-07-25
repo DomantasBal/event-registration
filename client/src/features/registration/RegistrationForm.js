@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './RegistrationForm.css';
+import Card from '../../components/Card/Card';
 
 const RegistrationForm = ({ initialUser = null }) => {
   const [user, setUser] = useState(
@@ -43,33 +44,36 @@ const RegistrationForm = ({ initialUser = null }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        value={user.name}
-        onChange={handleChange}
-        placeholder="Vardas ir pavardė"
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        value={user.email}
-        onChange={handleChange}
-        placeholder="El. paštas"
-        required
-      />
-      <input
-        type="number"
-        name="age"
-        value={user.age}
-        onChange={handleChange}
-        placeholder="Amžius"
-        required
-      />
-      <button type="submit">{isEditing ? 'Update' : 'Registruotis'}</button>
-    </form>
+    <Card>
+      <h3>Registracijos Forma</h3>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          value={user.name}
+          onChange={handleChange}
+          placeholder="Vardas ir pavardė"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+          placeholder="El. paštas"
+          required
+        />
+        <input
+          type="number"
+          name="age"
+          value={user.age}
+          onChange={handleChange}
+          placeholder="Amžius"
+          required
+        />
+        <button type="submit">{isEditing ? 'Update' : 'Registruotis'}</button>
+      </form>
+    </Card>
   );
 };
 

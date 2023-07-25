@@ -1,7 +1,7 @@
 form {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
 }
@@ -36,11 +36,10 @@ button {
   background-color: #007bff;
   color: #fff;
   padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 button:hover {

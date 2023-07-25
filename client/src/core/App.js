@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import RegistrationForm from './components/RegistrationForm/RegistrationForm';
-import UserList from './components/UserList/UserList';
+import RegistrationForm from '../features/registration/RegistrationForm';
+import UserList from '../features/users/UserList';
+import './App.css';
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <section className="register-container">
+    <section className="dashboard">
       <RegistrationForm
         initialUser={user}
         setUser={setUser}
