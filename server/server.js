@@ -27,14 +27,26 @@ app.get('/api/users', async (req, res) => {
 });
 
 app.post('/api/users', async (req, res) => {
-  const newUser = new User(req.body);
-  await newUser.save();
-  res.send(newUser);
+  try {
+    const newUser = new User(req.body);
+    await newUser.save();
+    res.send(newUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
 });
 
 app.delete('/api/users/:id', async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
   res.send('User deleted');
+});
+
+app.put('/api/users/:id', async (req, res) => {
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.send(updatedUser);
 });
 
 app.listen(5000, () => console.log('Server started on port 5000'));
