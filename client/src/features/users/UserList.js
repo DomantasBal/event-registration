@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../../components/Card/Card';
 import './UserList.css';
 
 const UserList = ({ setUser, setIsEditing }) => {
@@ -25,18 +24,26 @@ const UserList = ({ setUser, setIsEditing }) => {
   }, []);
 
   const calculateAge = (birthDate) => {
-    if (!birthDate) return 'N/A';
+    if (!birthDate) return 'Nenustatyta';
     const today = new Date();
     const birthDateObj = new Date(birthDate);
+
     let age = today.getFullYear() - birthDateObj.getFullYear();
     const monthDiff = today.getMonth() - birthDateObj.getMonth();
+
     if (
       monthDiff < 0 ||
       (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
     ) {
       age -= 1;
     }
+
     return age;
+  };
+
+  const calculateBirthYear = (birthDate) => {
+    if (!birthDate) return 'Nenustatyta';
+    return new Date(birthDate).getFullYear();
   };
 
   const handleDelete = async (id) => {
@@ -54,14 +61,16 @@ const UserList = ({ setUser, setIsEditing }) => {
   };
 
   return (
-    <Card>
+    <section>
       <h3>Registruoti Asmenys</h3>
       <table>
         <thead>
           <tr>
             <th>Vardas ir pavardė</th>
             <th>El. paštas</th>
+            <th>Gimimo data</th>
             <th>Amžius</th>
+            <th>Gimimo metai</th>
             <th>Veiksmai</th>
           </tr>
         </thead>
@@ -70,16 +79,22 @@ const UserList = ({ setUser, setIsEditing }) => {
             <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{calculateAge(user.birthDate)} Metai</td>
+              <td>{user.birthDate.toISOString().substr(0, 10)}</td>{' '}
+              <td>
+                {calculateAge(user.birthDate) !== 'N/A'
+                  ? `${calculateAge(user.birthDate)} years`
+                  : 'N/A'}
+              </td>{' '}
+              <td>{calculateBirthYear(user.birthDate)}</td>{' '}
               <td className="form-controls">
-                <button onClick={() => handleEdit(user)}>Edit</button>
+                <button onClick={() => handleEdit(user)}>Keisti</button>
                 <button onClick={() => handleDelete(user._id)}>Ištrinti</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </Card>
+    </section>
   );
 };
 

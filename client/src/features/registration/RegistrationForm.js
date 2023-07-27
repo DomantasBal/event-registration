@@ -4,27 +4,52 @@ import Card from '../../components/Card/Card';
 
 const RegistrationForm = ({ initialUser = null }) => {
   const [user, setUser] = useState(
-    initialUser || { name: '', email: '', birthDate: '' }
+    initialUser || {
+      name: '',
+      email: '',
+      birthDate: '',
+      age: '',
+      selectedOption: 'date',
+    }
   );
   const [isEditing, setIsEditing] = useState(!!initialUser);
 
   useEffect(() => {
     if (initialUser) {
-      setUser(initialUser);
+      setUser({ ...initialUser, selectedOption: 'date' });
       setIsEditing(true);
     }
   }, [initialUser]);
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    if (e.target.name === 'selectedOption') {
+      setUser({ ...user, selectedOption: e.target.value });
+    } else {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let birthDateToSubmit = null;
+    if (user.selectedOption === 'date') {
+      birthDateToSubmit = user.birthDate;
+    } else if (user.selectedOption === 'age') {
+      const today = new Date();
+      birthDateToSubmit = new Date(
+        today.getFullYear() - user.age,
+        today.getMonth(),
+        today.getDate()
+      );
+    }
+
     const userToSubmit = {
       ...user,
-      birthDate: user.birthDate,
+      birthDate: birthDateToSubmit,
+      age: undefined,
     };
+
     const response = await fetch(
       `http://localhost:5000/api/users${
         isEditing ? `/${initialUser._id}` : ''
@@ -37,8 +62,15 @@ const RegistrationForm = ({ initialUser = null }) => {
         body: JSON.stringify(userToSubmit),
       }
     );
+
     if (response.ok) {
-      setUser({ name: '', email: '', birthDate: '' });
+      setUser({
+        name: '',
+        email: '',
+        birthDate: '',
+        age: '',
+        selectedOption: 'date',
+      });
       setIsEditing(false);
     }
   };
@@ -63,14 +95,46 @@ const RegistrationForm = ({ initialUser = null }) => {
           placeholder="El. paštas"
           required
         />
-        <input
-          type="date"
-          name="birthDate"
-          value={user.birthDate}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">{isEditing ? 'Update' : 'Registruotis'}</button>
+        <div>
+          <input
+            type="radio"
+            name="selectedOption"
+            value="date"
+            checked={user.selectedOption === 'date'}
+            onChange={handleChange}
+          />
+          <label>Gimimo data</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            name="selectedOption"
+            value="age"
+            checked={user.selectedOption === 'age'}
+            onChange={handleChange}
+          />
+          <label>Amžius</label>
+        </div>
+        {user.selectedOption === 'date' && (
+          <input
+            type="date"
+            name="birthDate"
+            value={user.birthDate}
+            onChange={handleChange}
+            required
+          />
+        )}
+        {user.selectedOption === 'age' && (
+          <input
+            type="number"
+            name="age"
+            value={user.age}
+            onChange={handleChange}
+            placeholder="Amžius"
+            required
+          />
+        )}
+        <button type="submit">{isEditing ? 'Keisti' : 'Registruotis'}</button>
       </form>
     </Card>
   );
