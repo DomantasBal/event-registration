@@ -4,7 +4,7 @@ import Card from '../../components/Card/Card';
 
 const RegistrationForm = ({ initialUser = null }) => {
   const [user, setUser] = useState(
-    initialUser || { name: '', email: '', age: '' }
+    initialUser || { name: '', email: '', birthDate: '' }
   );
   const [isEditing, setIsEditing] = useState(!!initialUser);
 
@@ -23,7 +23,7 @@ const RegistrationForm = ({ initialUser = null }) => {
     e.preventDefault();
     const userToSubmit = {
       ...user,
-      age: Number(user.age),
+      birthDate: user.birthDate,
     };
     const response = await fetch(
       `http://localhost:5000/api/users${
@@ -38,7 +38,7 @@ const RegistrationForm = ({ initialUser = null }) => {
       }
     );
     if (response.ok) {
-      setUser({ name: '', email: '', age: '' });
+      setUser({ name: '', email: '', birthDate: '' });
       setIsEditing(false);
     }
   };
@@ -64,11 +64,10 @@ const RegistrationForm = ({ initialUser = null }) => {
           required
         />
         <input
-          type="number"
-          name="age"
-          value={user.age}
+          type="date"
+          name="birthDate"
+          value={user.birthDate}
           onChange={handleChange}
-          placeholder="Amžius"
           required
         />
         <button type="submit">{isEditing ? 'Update' : 'Registruotis'}</button>
