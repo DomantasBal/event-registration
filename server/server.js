@@ -1,11 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const User = require('./models/userModel');
+const Guest = require('./models/guestModel');
+const userRoutes = require('./routes/userRoutes');
+const guestRoutes = require('./routes/guestRoutes');
 
 const app = express();
 
 app.use(cors());
-
 app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/eventRegistration', {
@@ -13,40 +16,31 @@ mongoose.connect('mongodb://localhost:27017/eventRegistration', {
   useUnifiedTopology: true,
 });
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  birthDate: Date,
-});
+app.use('/api/guests', guestRoutes);
 
-const User = mongoose.model('User', userSchema);
+app.use('/api/users', userRoutes);
 
-app.get('/api/users', async (req, res) => {
-  const users = await User.find();
-  res.send(users);
-});
-
-app.post('/api/users', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   try {
-    const newUser = new User(req.body);
-    await newUser.save();
-    res.send(newUser);
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    res.json({ message: 'Login successful' });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Server error');
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-app.delete('/api/users/:id', async (req, res) => {
-  await User.findByIdAndDelete(req.params.id);
-  res.send('User deleted');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
-
-app.put('/api/users/:id', async (req, res) => {
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-  res.send(updatedUser);
-});
-
-app.listen(5000, () => console.log('Server started on port 5000'));

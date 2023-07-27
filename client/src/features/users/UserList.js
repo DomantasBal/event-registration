@@ -7,7 +7,7 @@ const UserList = ({ setUser, setIsEditing }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/users');
+        const res = await fetch('http://localhost:5000/api/guests'); // Fetch guests data
         const data = await res.json();
 
         const usersWithDates = data.map((user) => ({
@@ -17,7 +17,7 @@ const UserList = ({ setUser, setIsEditing }) => {
 
         setUsers(usersWithDates);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching guests:', error);
       }
     };
     fetchUsers();
@@ -47,7 +47,7 @@ const UserList = ({ setUser, setIsEditing }) => {
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch(`http://localhost:5000/api/users/${id}`, {
+    const res = await fetch(`http://localhost:5000/api/guests/${id}`, {
       method: 'DELETE',
     });
     if (res.ok) {

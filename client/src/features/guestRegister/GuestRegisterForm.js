@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './RegistrationForm.css';
+import './GuestRegisterForm.css';
 import Card from '../../components/Card/Card';
 
-const RegistrationForm = ({ initialUser = null }) => {
+const GuestRegisterForm = ({ initialUser = null }) => {
   const [user, setUser] = useState(
     initialUser || {
       name: '',
@@ -45,33 +45,34 @@ const RegistrationForm = ({ initialUser = null }) => {
     }
 
     const userToSubmit = {
-      ...user,
+      name: user.name,
+      email: user.email,
       birthDate: birthDateToSubmit,
-      age: undefined,
     };
 
-    const response = await fetch(
-      `http://localhost:5000/api/users${
-        isEditing ? `/${initialUser._id}` : ''
-      }`,
-      {
-        method: isEditing ? 'PUT' : 'POST',
+    try {
+      const response = await fetch('http://localhost:5000/api/guests', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userToSubmit),
-      }
-    );
-
-    if (response.ok) {
-      setUser({
-        name: '',
-        email: '',
-        birthDate: '',
-        age: '',
-        selectedOption: 'date',
       });
-      setIsEditing(false);
+
+      if (response.ok) {
+        setUser({
+          name: '',
+          email: '',
+          birthDate: '',
+          age: '',
+          selectedOption: 'date',
+        });
+        setIsEditing(false);
+      } else {
+        console.error('Failed to create guest:', response);
+      }
+    } catch (error) {
+      console.error('Error creating guest:', error);
     }
   };
 
@@ -140,4 +141,4 @@ const RegistrationForm = ({ initialUser = null }) => {
   );
 };
 
-export default RegistrationForm;
+export default GuestRegisterForm;

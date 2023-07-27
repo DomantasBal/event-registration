@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-import RegistrationForm from '../features/registration/RegistrationForm';
-import UserList from '../features/users/UserList';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from '../pages/HomePage';
+import RegistrationForm from '../components/RegistrationForm/RegistrationForm';
+import LoginForm from '../components/LoginForm/LoginForm';
+import Dashboard from '../pages/Dashboard';
 
-const App = () => {
-  const [user, setUser] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-
+function App() {
   return (
-    <section className="dashboard">
-      <RegistrationForm
-        initialUser={user}
-        setUser={setUser}
-        setIsEditing={setIsEditing}
-      />
-      <UserList setUser={setUser} setIsEditing={setIsEditing} />
-    </section>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />{' '}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
