@@ -63,7 +63,7 @@ const RegistrationForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button text="Register" type="submit" />
+            <Button className={'xl'} text="Register" type="submit" />
           </form>
           <p>
             Already have an account? <Link to="/login">Login</Link>

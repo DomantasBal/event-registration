@@ -1,4 +1,3 @@
-// Dashboard.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GuestRegisterForm from '../features/guestRegister/GuestRegisterForm';
@@ -16,21 +15,24 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <GuestRegisterForm
-        initialUser={isEditing ? user : null}
-        setIsEditing={setIsEditing}
-      />
-
-      <UserList setUser={setUser} setIsEditing={setIsEditing} />
+      <div>
+        <GuestRegisterForm
+          initialUser={isEditing ? user : null}
+          setIsEditing={setIsEditing}
+        />
+      </div>
 
       <div>
-        <Link to="/home">
-          <Button
-            text="Back to Home"
-            onClick={handleBackToHome}
-            width="200px"
-          />
-        </Link>
+        <UserList setUser={setUser} setIsEditing={setIsEditing} />
+        <div>
+          <Link to="/home">
+            <Button
+              className={'small'}
+              text="Back to Home"
+              onClick={handleBackToHome}
+            />
+          </Link>
+        </div>
       </div>
     </div>
   );

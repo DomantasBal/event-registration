@@ -62,7 +62,7 @@ const LoginForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button text="Login" type="submit" />
+            <Button className={'xl'} text="Login" type="submit" />
           </form>
           <p>
             Don't have an account? <Link to="/register">Register</Link>

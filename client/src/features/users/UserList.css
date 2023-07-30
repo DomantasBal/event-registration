@@ -25,22 +25,49 @@ td {
 
 .form-controls {
   display: flex;
+  flex-wrap: wrap;
 }
 
-button {
-  padding: 0.5rem 0.75rem;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  margin-right: 0.5rem;
-}
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
 
-button.edit {
-  background-color: #007bff;
-  color: #fff;
-}
+  table caption {
+    font-size: 1.3em;
+  }
 
-button.delete {
-  background-color: #dc3545;
-  color: #fff;
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+
+  table td {
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  table td:last-child {
+    border-bottom: 0;
+  }
 }

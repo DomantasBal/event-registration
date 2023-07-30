@@ -64,41 +64,48 @@ const UserList = ({ setUser, setIsEditing }) => {
   return (
     <section className="userList">
       <h3>Registruoti Asmenys</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Vardas ir pavardė</th>
-            <th>El. paštas</th>
-            <th>Gimimo data</th>
-            <th>Amžius</th>
-            <th>Gimimo metai</th>
-            <th>Veiksmai</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.birthDate.toISOString().substr(0, 10)}</td>
-              <td>
-                {calculateAge(user.birthDate) !== 'N/A'
-                  ? `${calculateAge(user.birthDate)} years`
-                  : 'N/A'}
-              </td>
-              <td>{calculateBirthYear(user.birthDate)}</td>
-              <td className="form-controls">
-                <button className="btn" onClick={() => handleEdit(user)}>
-                  Keisti
-                </button>
-                <button className="btn" onClick={() => handleDelete(user._id)}>
-                  Ištrinti
-                </button>
-              </td>
+      {users.length === 0 ? (
+        <p>Svečių sąrašas tuščias. Prašome užpildyti šalia esančią lentelę.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Vardas ir pavardė</th>
+              <th>El. paštas</th>
+              <th>Gimimo data</th>
+              <th>Amžius</th>
+              <th>Gimimo metai</th>
+              <th>Veiksmai</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.birthDate.toISOString().substr(0, 10)}</td>
+                <td>
+                  {calculateAge(user.birthDate) !== 'N/A'
+                    ? `${calculateAge(user.birthDate)} years`
+                    : 'N/A'}
+                </td>
+                <td>{calculateBirthYear(user.birthDate)}</td>
+                <td className="form-controls">
+                  <button className="btn" onClick={() => handleEdit(user)}>
+                    Keisti
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => handleDelete(user._id)}
+                  >
+                    Ištrinti
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </section>
   );
 };

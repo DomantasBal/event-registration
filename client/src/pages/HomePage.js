@@ -11,10 +11,10 @@ const HomePage = () => {
         <p>Please select an option:</p>
         <div className="homeForm-controls">
           <Link to="/login">
-            <Button text="Login" />
+            <Button className={'xl'} text="Login" />
           </Link>
           <Link to="/register">
-            <Button text="Register" />
+            <Button className={'xl'} text="Register" />
           </Link>
         </div>
       </div>

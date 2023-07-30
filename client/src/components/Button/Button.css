@@ -1,13 +1,34 @@
 .btn {
   margin: 5px;
-  padding: 20px 60px;
   width: 100%;
   border-radius: 6px;
+  font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   transition: 0.5s;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
 }
 
 .btn:hover {
   transform: scale(1.03);
+}
+
+.edit {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.delete {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.small {
+  padding: 10px 30px;
+}
+
+.xl {
+  padding: 20px 60px;
 }
