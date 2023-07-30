@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Guest = require('../models/guestModel');
 
+// GET
 router.get('/', async (req, res) => {
   try {
     const guests = await Guest.find();
@@ -12,6 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// POST
 router.post('/', async (req, res) => {
   try {
     const { name, email, birthDate } = req.body;
@@ -26,6 +28,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT
 router.put('/:id', async (req, res) => {
   try {
     const { name, email, birthDate } = req.body;
@@ -40,6 +43,20 @@ router.put('/:id', async (req, res) => {
     res.json({ message: 'Guest updated successfully', guest: updatedGuest });
   } catch (error) {
     console.error('Error updating guest:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// DELETE
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedGuest = await Guest.findByIdAndRemove(req.params.id);
+    if (!deletedGuest) {
+      return res.status(404).json({ message: 'Guest not found' });
+    }
+    res.json({ message: 'Guest deleted successfully', guest: deletedGuest });
+  } catch (error) {
+    console.error('Error deleting guest:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });

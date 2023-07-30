@@ -1,20 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '../components/Button/Button';
+import './HomePage.css';
 
 const HomePage = () => {
   return (
-    <div>
-      <h2>Welcome to Event Registration</h2>
-      <p>Please select an option:</p>
-      <div>
-        <Link to="/login">
-          <button>Login</button>
-        </Link>
-        <Link to="/register">
-          <button>Register</button>
-        </Link>
+    <section className="home">
+      <div className="homeForm">
+        <h2>Welcome to Event Registration</h2>
+        <p>Please select an option:</p>
+        <div className="homeForm-controls">
+          <Link to="/login">
+            <Button text="Login" />
+          </Link>
+          <Link to="/register">
+            <Button text="Register" />
+          </Link>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

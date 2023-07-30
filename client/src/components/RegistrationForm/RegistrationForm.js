@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Card from '../Card/Card';
+import './RegistrationForm.css';
+import Button from '../Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
@@ -34,35 +37,39 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Register</button>
-      </form>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
+    <div className="register">
+      <div>
+        <Card>
+          <h2 className="formTitle">Register</h2>
+          <form onSubmit={handleRegister}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Button text="Register" type="submit" />
+          </form>
+          <p>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </Card>
+      </div>
     </div>
   );
 };

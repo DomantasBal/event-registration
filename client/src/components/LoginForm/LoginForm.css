@@ -1,0 +1,15 @@
+.login {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  background: url(../../assets/2.jpg);
+  height: 100vh;
+}
+
+.loginForm {
+  height: 300px;
+}
+
+.formTitle {
+  text-align: center;
+}

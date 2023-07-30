@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../components/Button/Button.css';
 import './UserList.css';
 
 const UserList = ({ setUser, setIsEditing }) => {
@@ -7,7 +8,7 @@ const UserList = ({ setUser, setIsEditing }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/guests'); // Fetch guests data
+        const res = await fetch('http://localhost:5000/api/guests');
         const data = await res.json();
 
         const usersWithDates = data.map((user) => ({
@@ -24,7 +25,7 @@ const UserList = ({ setUser, setIsEditing }) => {
   }, []);
 
   const calculateAge = (birthDate) => {
-    if (!birthDate) return 'Nenustatyta';
+    if (!birthDate) return 'N/A';
     const today = new Date();
     const birthDateObj = new Date(birthDate);
 
@@ -42,7 +43,7 @@ const UserList = ({ setUser, setIsEditing }) => {
   };
 
   const calculateBirthYear = (birthDate) => {
-    if (!birthDate) return 'Nenustatyta';
+    if (!birthDate) return 'N/A';
     return new Date(birthDate).getFullYear();
   };
 
@@ -61,7 +62,7 @@ const UserList = ({ setUser, setIsEditing }) => {
   };
 
   return (
-    <section>
+    <section className="userList">
       <h3>Registruoti Asmenys</h3>
       <table>
         <thead>
@@ -79,16 +80,20 @@ const UserList = ({ setUser, setIsEditing }) => {
             <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{user.birthDate.toISOString().substr(0, 10)}</td>{' '}
+              <td>{user.birthDate.toISOString().substr(0, 10)}</td>
               <td>
                 {calculateAge(user.birthDate) !== 'N/A'
                   ? `${calculateAge(user.birthDate)} years`
                   : 'N/A'}
-              </td>{' '}
-              <td>{calculateBirthYear(user.birthDate)}</td>{' '}
+              </td>
+              <td>{calculateBirthYear(user.birthDate)}</td>
               <td className="form-controls">
-                <button onClick={() => handleEdit(user)}>Keisti</button>
-                <button onClick={() => handleDelete(user._id)}>Ištrinti</button>
+                <button className="btn" onClick={() => handleEdit(user)}>
+                  Keisti
+                </button>
+                <button className="btn" onClick={() => handleDelete(user._id)}>
+                  Ištrinti
+                </button>
               </td>
             </tr>
           ))}

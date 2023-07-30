@@ -1,0 +1,12 @@
+.register {
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background: url(../../assets//3.png);
+  background-size: cover;
+}
+
+.formTitle {
+  text-align: center;
+}

@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import './GuestRegisterForm.css';
 import Card from '../../components/Card/Card';
+import '../../components/Button/Button.css';
 
-const GuestRegisterForm = ({ initialUser = null }) => {
-  const [user, setUser] = useState(
-    initialUser || {
-      name: '',
-      email: '',
-      birthDate: '',
-      age: '',
-      selectedOption: 'date',
-    }
-  );
-  const [isEditing, setIsEditing] = useState(!!initialUser);
+const GuestRegisterForm = ({ initialUser = null, setIsEditing }) => {
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    birthDate: '',
+    age: '',
+    selectedOption: 'date',
+  });
 
   useEffect(() => {
     if (initialUser) {
-      setUser({ ...initialUser, selectedOption: 'date' });
-      setIsEditing(true);
+      const { name, email, birthDate } = initialUser;
+      setUser({ ...initialUser });
+      if (birthDate) {
+        const today = new Date();
+        const birthDateObj = new Date(birthDate);
+        const age = today.getFullYear() - birthDateObj.getFullYear();
+        setUser((prevUser) => ({ ...prevUser, age }));
+      }
     }
   }, [initialUser]);
 
@@ -51,34 +55,46 @@ const GuestRegisterForm = ({ initialUser = null }) => {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/guests', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userToSubmit),
-      });
+      if (initialUser) {
+        const response = await fetch(
+          `http://localhost:5000/api/guests/${initialUser._id}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userToSubmit),
+          }
+        );
 
-      if (response.ok) {
-        setUser({
-          name: '',
-          email: '',
-          birthDate: '',
-          age: '',
-          selectedOption: 'date',
-        });
-        setIsEditing(false);
+        if (response.ok) {
+          setIsEditing(false);
+        } else {
+          console.error('Failed to update guest:', response);
+        }
       } else {
-        console.error('Failed to create guest:', response);
+        const response = await fetch('http://localhost:5000/api/guests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userToSubmit),
+        });
+
+        if (response.ok) {
+          setIsEditing(false);
+        } else {
+          console.error('Failed to create guest:', response);
+        }
       }
     } catch (error) {
-      console.error('Error creating guest:', error);
+      console.error('Error creating/updating guest:', error);
     }
   };
 
   return (
     <Card>
-      <h3>Registracijos Forma</h3>
+      <h3>{initialUser ? 'Redaguoti Asmenį' : 'Registracijos Forma'}</h3>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -135,7 +151,9 @@ const GuestRegisterForm = ({ initialUser = null }) => {
             required
           />
         )}
-        <button type="submit">{isEditing ? 'Keisti' : 'Registruotis'}</button>
+        <button className="btn" type="submit">
+          {initialUser ? 'Keisti' : 'Registruotis'}
+        </button>
       </form>
     </Card>
   );
