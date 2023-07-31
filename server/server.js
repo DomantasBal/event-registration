@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { check, validationResult } = require('express-validator');
 const User = require('./models/userModel');
 const Guest = require('./models/guestModel');
 const userRoutes = require('./routes/userRoutes');
@@ -19,6 +20,40 @@ mongoose.connect('mongodb://localhost:27017/eventRegistration', {
 app.use('/api/guests', guestRoutes);
 
 app.use('/api/users', userRoutes);
+
+app.post(
+  '/api/users',
+  [
+    check('name').notEmpty().withMessage('Name is required'),
+    check('email').isEmail().withMessage('Invalid email format'),
+    check('password')
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters long'),
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { name, email, password } = req.body;
+
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(409).json({ message: 'User already exists' });
+      }
+
+      const newUser = new User({ name, email, password });
+      await newUser.save();
+
+      res.status(201).json({ message: 'User registered successfully' });
+    } catch (error) {
+      console.error('Error during user registration:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
 
 app.post('/api/login', async (req, res) => {
   try {
