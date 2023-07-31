@@ -63,6 +63,7 @@ const RegistrationForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <p className="passNote">Password must be more than 6 characters.</p>
             <Button className={'xl'} text="Registruotis" type="submit" />
           </form>
           <p>

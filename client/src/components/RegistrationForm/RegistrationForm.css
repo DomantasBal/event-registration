@@ -10,3 +10,9 @@
 .formTitle {
   text-align: center;
 }
+
+.passNote {
+  color: #0075f4;
+  font-size: 12px;
+  font-weight: bold;
+}
