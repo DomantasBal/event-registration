@@ -40,33 +40,33 @@ const RegistrationForm = () => {
     <div className="register">
       <div>
         <Card>
-          <h2 className="formTitle">Register</h2>
+          <h2 className="formTitle">Registruotis</h2>
           <form onSubmit={handleRegister}>
             <input
               type="text"
-              placeholder="Username"
+              placeholder="Vartotojo Vardas"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
             <input
               type="email"
-              placeholder="Email"
+              placeholder="El. Paštas"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Slaptažodis"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button className={'xl'} text="Register" type="submit" />
+            <Button className={'xl'} text="Registruotis" type="submit" />
           </form>
           <p>
-            Already have an account? <Link to="/login">Login</Link>
+            Turite paskyrą? <Link to="/login">Prisijungti</Link>
           </p>
         </Card>
       </div>

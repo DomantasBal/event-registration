@@ -39,33 +39,33 @@ const LoginForm = () => {
     <section className="login">
       <div>
         <Card>
-          <h2 className="formTitle">Login</h2>
+          <h2 className="formTitle">Prisijungti</h2>
           <form onSubmit={handleLogin}>
             <input
               type="text"
-              placeholder="Username"
+              placeholder="Vartotojo Vardas"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
             <input
               type="email"
-              placeholder="Email"
+              placeholder="El. Paštas"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Slaptažodis"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button className={'xl'} text="Login" type="submit" />
+            <Button className={'xl'} text="Prisijungti" type="submit" />
           </form>
           <p>
-            Don't have an account? <Link to="/register">Register</Link>
+            Neturite paskyros? <Link to="/register">Registruotis</Link>
           </p>
         </Card>
       </div>

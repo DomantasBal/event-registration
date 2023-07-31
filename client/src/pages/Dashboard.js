@@ -28,7 +28,7 @@ const Dashboard = () => {
           <Link to="/home">
             <Button
               className={'small'}
-              text="Back to Home"
+              text="Pradžia"
               onClick={handleBackToHome}
             />
           </Link>
